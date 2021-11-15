@@ -34,5 +34,8 @@ namespace Shop.Controllers
                 
             return View(result);
         }
+
+        public  async Task<IActionResult> Delete(Guid id)
+
     }
 }
