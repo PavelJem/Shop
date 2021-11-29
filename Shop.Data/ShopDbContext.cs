@@ -13,6 +13,7 @@ namespace Shop.Data
         public ShopDbContext(DbContextOptions<ShopDbContext> options) : base(options) { }
 
         public DbSet<Product> Product { get; set; }
+        public DbSet<ExistingFilePath> ExistingFilePath { get; set; }
 
     }
 }
