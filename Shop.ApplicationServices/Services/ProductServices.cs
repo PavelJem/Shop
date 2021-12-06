@@ -10,18 +10,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace Shop.ApplicationServices.Services
 {
     public class ProductServices : IProductService
     {
         private readonly ShopDbContext _context;
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
 
         public ProductServices
             (
                 ShopDbContext context,
-                IHostingEnvironment env
+                IWebHostEnvironment env
             )
         {
             _context = context;
@@ -88,6 +89,11 @@ namespace Shop.ApplicationServices.Services
 
             if(dto.Files != null && dto.Files.Count > 0)
             {
+                if(!Directory.Exists(_env.EnvironmentName + "\\multipleFileUpload\\"))
+                {
+                    Directory.CreateDirectory(_env.ContentRootPath + "\\multipleFileUpload\\");
+                }
+                
                 foreach (var photo in dto.Files)
                 {
                     string uploadsFolder = Path.Combine(_env.WebRootPath, "multipleFileUpload");
