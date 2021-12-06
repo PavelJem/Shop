@@ -17,6 +17,6 @@ namespace Shop.Models.Product
 
         public List<IFormFile> Files { get; set; }
 
-        public IEnumerable<ExistingFilePathViewModel> ExistingFilePaths { get; set; } = new List<ExistingFilePathViewModel>();
+        public List<ExistingFilePathViewModel> ExistingFilePaths { get; set; } = new List<ExistingFilePathViewModel>();
     }
 }

@@ -43,7 +43,7 @@ namespace Shop.ApplicationServices.Services
         {
             Product product = new Product();
 
-            product.Id = dto.Id;
+            product.Id = Guid.NewGuid();
             product.Description = dto.Description;
             product.Name = dto.Name;
             product.Amount = dto.Amount;

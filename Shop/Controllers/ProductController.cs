@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Shop.Models.Product;
 using Shop.Core.ServiceInterface;
 using Shop.Core.Dtos;
+using Shop.Models.Files;
+using Microsoft.EntityFrameworkCore;
 
 namespace Shop.Controllers
 {
@@ -97,6 +99,12 @@ namespace Shop.Controllers
                 return NotFound();
             }
 
+            var photos = await _context.ExistingFilePath.Where(x => x.ProductId == id).Select(y=> new ExistingFilePathViewModel
+            {
+                FilePath = y.FilePath,
+                PhotoId = y.Id
+            }).ToArrayAsync();
+
             var model = new ProductViewModel();
 
             model.Id = product.Id;
@@ -106,18 +114,8 @@ namespace Shop.Controllers
             model.Price = product.Price;
             model.ModifiedAt = product.ModifiedAt;
             model.CreatedAt = product.CreatedAt;
+            model.ExistingFilePaths.AddRange(photos);
 
-            /*var dto = new ProductDto()
-            {
-                Id = model.Id,
-                Description = model.Description,
-                Name = model.Name,
-                Amount = model.Amount,
-                Price = model.Price,
-                ModifiedAt = model.ModifiedAt,
-                CreatedAt = model.CreatedAt
-            };
-            */
             return View(model); 
         }
 

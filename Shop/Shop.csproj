@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\Photo\" />
     <Folder Include="wwwroot\multipleFileUpload\" />
   </ItemGroup>
 
