@@ -31,7 +31,8 @@ namespace Shop.ApplicationServices.Services
 
         public async Task<Product> Delete(Guid id)
         {
-            var productId = await _context.Product.FirstOrDefaultAsync(x => x.Id == id);
+
+            var productId = await _context.Product.Include(x => x.ExistingFilePaths).FirstOrDefaultAsync(x => x.Id == id);
 
             _context.Product.Remove(productId);
             await _context.SaveChangesAsync();
@@ -68,7 +69,6 @@ namespace Shop.ApplicationServices.Services
         public async Task<Product> Update(ProductDto dto)
         {
             Product product = new Product();
-
             product.Id = dto.Id;
             product.Description = dto.Description;
             product.Name = dto.Name;
@@ -76,11 +76,21 @@ namespace Shop.ApplicationServices.Services
             product.Price = dto.Price;
             product.ModifiedAt = dto.ModifiedAt;
             product.CreatedAt = dto.CreatedAt;
+            ProcessUploadedFile(dto, product);
 
             _context.Product.Update(product);
             await _context.SaveChangesAsync();
 
             return product;
+        }
+
+        public async Task<ExistingFilePath> RemoveImage(ExistingFilePathDto dto)
+        {
+            var imageId = await _context.ExistingFilePath.FirstOrDefaultAsync(x => x.Id == dto.PhotoId);
+            _context.ExistingFilePath.Remove(imageId);
+            await _context.SaveChangesAsync();
+
+            return imageId;
         }
 
         public string ProcessUploadedFile(ProductDto dto, Product product)
@@ -115,7 +125,6 @@ namespace Shop.ApplicationServices.Services
                     }
                 }
             }
-
             return uniqueFileName;
         }
 
