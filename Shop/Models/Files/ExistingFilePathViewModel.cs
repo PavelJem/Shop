@@ -8,5 +8,7 @@ namespace Shop.Models.Files
         public string FilePath { get; set; }
         public Guid ProductId { get; set; }
 
+        public Guid SpaceshipId { get; set; }
+
     }
 }

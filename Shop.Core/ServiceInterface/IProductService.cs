@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Shop.Core.ServiceInterface
 {
-    public interface IProductService
+    public interface IProductService:IApplicationService
     {
         Task<Product> Delete(Guid id);
         Task<Product> Add(ProductDto dto);
@@ -16,6 +16,6 @@ namespace Shop.Core.ServiceInterface
 
         Task<Product> Update(ProductDto dto);
 
-        Task<ExistingFilePath> RemoveImage(ExistingFilePathDto dto);
+        //Task<ExistingFilePath> RemoveImage(ExistingFilePathDto dto);
     }
 }

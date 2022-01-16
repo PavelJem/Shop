@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Shop.ApplicationServices.Services;
 
 namespace Shop.ApplicationServices.Services
 {
@@ -18,22 +19,33 @@ namespace Shop.ApplicationServices.Services
     {
         private readonly ShopDbContext _context;
         private readonly IWebHostEnvironment _env;
+        private readonly IFileService _file;
 
         public ProductServices
             (
                 ShopDbContext context,
-                IWebHostEnvironment env
+                IWebHostEnvironment env,
+                IFileService file
+
             )
         {
             _context = context;
             _env = env;
+            _file = file;
         }
 
         public async Task<Product> Delete(Guid id)
         {
-
+            var photos = await _context.ExistingFilePath.Where(x => x.ProductId == id).Select(y => new ExistingFilePathDto()
+            {
+                ProductId = y.ProductId,
+                FilePath = y.FilePath,
+                PhotoId = y.Id
+            })
+            .ToArrayAsync();
             var productId = await _context.Product.Include(x => x.ExistingFilePaths).FirstOrDefaultAsync(x => x.Id == id);
 
+            await _file.RemoveImages(photos);
             _context.Product.Remove(productId);
             await _context.SaveChangesAsync();
 
@@ -51,7 +63,9 @@ namespace Shop.ApplicationServices.Services
             product.Price = dto.Price;
             product.ModifiedAt = DateTime.Now;
             product.CreatedAt = DateTime.Now;
-            ProcessUploadedFile(dto, product);
+            //ProcessUploadedFile(dto, product);
+            _file.ProcessUploadedFile(dto, product);
+
 
             await _context.Product.AddAsync(product);
             await _context.SaveChangesAsync();
@@ -76,7 +90,8 @@ namespace Shop.ApplicationServices.Services
             product.Price = dto.Price;
             product.ModifiedAt = dto.ModifiedAt;
             product.CreatedAt = dto.CreatedAt;
-            ProcessUploadedFile(dto, product);
+            _file.ProcessUploadedFile(dto, product);
+
 
             _context.Product.Update(product);
             await _context.SaveChangesAsync();
@@ -84,7 +99,7 @@ namespace Shop.ApplicationServices.Services
             return product;
         }
 
-        public async Task<ExistingFilePath> RemoveImage(ExistingFilePathDto dto)
+       /* public async Task<ExistingFilePath> RemoveImage(ExistingFilePathDto dto)
         {
             var imageId = await _context.ExistingFilePath.FirstOrDefaultAsync(x => x.Id == dto.PhotoId);
             _context.ExistingFilePath.Remove(imageId);
@@ -127,6 +142,7 @@ namespace Shop.ApplicationServices.Services
             }
             return uniqueFileName;
         }
+       */
 
     }
 }
