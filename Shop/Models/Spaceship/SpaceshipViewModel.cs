@@ -20,7 +20,7 @@ namespace Shop.Models.Spaceship
         public DateTime ModifiedAt { get; set; }
 
         public List<IFormFile> Files { get; set; }
-
+        public List<ImagesViewModel> Image { get; set; } = new List<ImagesViewModel>();
         public List<ExistingFilePathViewModel> ExistingFilePaths { get; set; } = new List<ExistingFilePathViewModel>();
     }
 }

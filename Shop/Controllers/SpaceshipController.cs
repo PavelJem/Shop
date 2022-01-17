@@ -83,11 +83,12 @@ namespace Shop.Controllers
                 ModifiedAt = model.ModifiedAt,
                 CreatedAt = model.CreatedAt,
                 Files = model.Files,
-                ExistingFilePaths = model.ExistingFilePaths.Select(x => new ExistingFilePathDto
-                {
-                    PhotoId = x.PhotoId,
-                    FilePath = x.FilePath,
-                    SpaceshipId = x.SpaceshipId
+                Image = model.Image.Select(x => new FileToDatabaseDto 
+                { 
+                    Id = x.Id,
+                    ImageData = x.ImageData,
+                    ImageTitle = x.ImageTitle,
+                    SpaceshipId = x.Spaceship
                 }).ToArray()
             };
 
@@ -108,10 +109,14 @@ namespace Shop.Controllers
                 return NotFound();
             }
 
-            var photos = await _context.ExistingFilePath.Where(x => x.SpaceshipId == id).Select(y => new ExistingFilePathViewModel
+            var photos = await _context.FileToDatabase.Where(x => x.SpaceshipId == id).Select(m => new ImagesViewModel
             {
-                FilePath = y.FilePath,
-                PhotoId = y.Id
+                ImageData = m.ImageData,
+                Id = m.Id,
+                Image = string.Format("data:iamge/gif;base64,{0}", Convert.ToBase64String(m.ImageData)),
+                ImageTitle = m.ImageTitle,
+                SpaceshipId = m.Id,
+
             }).ToArrayAsync();
 
             var model = new SpaceshipViewModel();
@@ -125,8 +130,7 @@ namespace Shop.Controllers
             model.ConstructedAt = spaceship.ConstructedAt;
             model.ModifiedAt = spaceship.ModifiedAt;
             model.CreatedAt = spaceship.CreatedAt;
-            model.ExistingFilePaths.AddRange(photos);
-
+            model.Image.AddRange(photos);
 
             return View(model);
         }
@@ -145,12 +149,13 @@ namespace Shop.Controllers
                 ConstructedAt = model.ConstructedAt,
                 ModifiedAt = model.ModifiedAt,
                 CreatedAt = model.CreatedAt,
-                ExistingFilePaths = model.ExistingFilePaths.Select(x => new ExistingFilePathDto
+                Image = model.Image.Select(x => new FileToDatabaseDto
                 {
-                    PhotoId = x.PhotoId,
-                    FilePath = x.FilePath,
+                    Id = x.Id,
+                    ImageData = x.ImageData,
+                    ImageTitle = x.ImageTitle,
                     SpaceshipId = x.SpaceshipId
-                }).ToArray()
+                })
             };
 
             var result = await _spaceshipService.Update(dto);
