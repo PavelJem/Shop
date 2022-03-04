@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.ApplicationServices", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Data", "..\Shop.Data\Shop.Data.csproj", "{1C4B07C5-2C16-4B7B-955B-034707291B93}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spaceship.Test", "..\Spaceship.Test\Spaceship.Test.csproj", "{8CF00CFB-4D8F-434D-8C58-78D22EE7A065}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{1C4B07C5-2C16-4B7B-955B-034707291B93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C4B07C5-2C16-4B7B-955B-034707291B93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C4B07C5-2C16-4B7B-955B-034707291B93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CF00CFB-4D8F-434D-8C58-78D22EE7A065}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CF00CFB-4D8F-434D-8C58-78D22EE7A065}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CF00CFB-4D8F-434D-8C58-78D22EE7A065}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CF00CFB-4D8F-434D-8C58-78D22EE7A065}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

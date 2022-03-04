@@ -31,6 +31,7 @@ namespace Shop
             services.AddScoped<IFileService, FileServices>();
 
             services.AddScoped<ISpaceshipService, SpaceshipServices>();
+            services.AddScoped<IWeatherForecastServices, WeatherForecastServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
